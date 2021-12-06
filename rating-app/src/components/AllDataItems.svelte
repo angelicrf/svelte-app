@@ -1,8 +1,16 @@
 <script>
   import Card from "./Card.svelte";
   import { FeedbackStore } from "../store";
-  let firstArray = [];
+  export let firstArray = [];
+
+  export let resetFirstArray = (changeThis) => {
+    firstArray = changeThis;
+  };
   FeedbackStore.subscribe((thisData) => (firstArray = thisData));
+  (async () => {
+    let changes = resetFirstArray(firstArray);
+  })();
+
   const slotXClick = (thisId) => {
     firstArray = firstArray.filter((hg) => {
       return hg.id != thisId;
