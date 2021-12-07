@@ -1,6 +1,7 @@
 <script>
   import { FeedbackStore } from "../store";
   import { v4 as uuidv4 } from "uuid";
+  import RatesRadioButtons from "../components/RatesRadioButtons.svelte";
   let thisValue = "";
   export let firstArray = [];
 
@@ -39,6 +40,7 @@
   />
   <button class="addBtn" on:click={() => sumbmitAdd(thisValue)}>Add</button>
 </div>
+<RatesRadioButtons />
 
 <style>
   .addBtn {
