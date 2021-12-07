@@ -1,7 +1,9 @@
 <script>
   import Card from "./Card.svelte";
+  import AverageRate from "../components/AverageRate.svelte";
   import { FeedbackStore } from "../store";
   export let firstArray = [];
+  let getRates = 0;
 
   export let resetFirstArray = (changeThis) => {
     firstArray = changeThis;
@@ -15,10 +17,25 @@
     firstArray = firstArray.filter((hg) => {
       return hg.id != thisId;
     });
+    (async () => {
+      let dataChanged = resetFirstArray(firstArray);
+    })();
+  };
+  const allAverage = () => {
+    getRates = 0;
+    firstArray.forEach((rf) => {
+      getRates += rf.rating;
+      return getRates;
+    });
+    return getRates;
   };
 </script>
 
 <div class="firstPar">
+  <AverageRate
+    calcTotal={firstArray.length}
+    calcAverage={allAverage() / firstArray.length}
+  />
   {#each firstArray as item}
     <Card>
       <div class="sloTxt">{item.rating}</div>
