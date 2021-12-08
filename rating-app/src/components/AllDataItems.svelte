@@ -7,6 +7,7 @@
   let isChanged = false;
   let storeId = "";
   let editDivTxt = [];
+  let editDivRate = [];
   let getRates = 0;
 
   export let resetFirstArray = (changeThis) => {
@@ -45,13 +46,14 @@
     });
     return getRates;
   };
-  const setEditDivId = () => {
+  const setEditDivId = (thisArray) => {
     for (let i = 0; i < firstArray.length; i++) {
-      return (editDivTxt[i] = firstArray[i].id);
+      return (thisArray[i] = firstArray[i].id);
     }
-    return editDivTxt;
+    return thisArray;
   };
-  setEditDivId();
+  setEditDivId(editDivTxt);
+  setEditDivId(editDivRate);
 </script>
 
 <div>
@@ -62,7 +64,9 @@
   />
   {#each firstArray as _, i}
     <Card>
-      <div class="sloTxt">{firstArray[i].rating}</div>
+      <div bind:this={editDivRate[i]} id={editDivRate[i]} class="sloTxt">
+        {firstArray[i].rating}
+      </div>
       <button on:click={() => slotXClick(firstArray[i].id)} class="slotX"
         >X</button
       >
@@ -76,6 +80,7 @@
       {#if isChanged && storeId == firstArray[i].id}
         {(editDivTxt[i].style.display = "none")}
         <EditFeedackForm feedackText={firstArray[i].text} />
+        {(editDivRate[i].style.backgroundColor = "#ff0000")}
       {/if}
     </Card>
   {/each}
@@ -89,10 +94,10 @@
     position: absolute;
     font-weight: bold;
     text-align: center;
-    color: rgb(111, 67, 153);
+    color: #6f4399;
     font-size: 21px;
     border-radius: 50%;
-    background-color: rgb(165, 202, 62);
+    background-color: #a5ca3e;
   }
   .slotX {
     right: 20px;
@@ -101,7 +106,7 @@
     position: absolute;
     font-weight: bold;
     text-align: center;
-    color: rgb(192, 178, 206);
+    color: #c0b2ce;
     font-size: 21px;
     border-radius: 50%;
     background-color: #8b3014;
@@ -115,7 +120,7 @@
     position: absolute;
     font-weight: bold;
     text-align: center;
-    color: rgb(192, 178, 206);
+    color: #c0b2ce;
     font-size: 21px;
     border-radius: 50%;
     background-color: #3b27ad;
