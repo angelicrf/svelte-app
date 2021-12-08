@@ -1,4 +1,6 @@
 <script>
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
   let currentRate = 0;
   let isShow = false;
   let radioValue5 = 5;
@@ -16,6 +18,10 @@
   function showPrg() {
     isShow = !isShow;
   }
+  export let thisDispatch = () => {
+    dispatch("awesomeButtonEvent", currentRate);
+  };
+  //thisElement.matches(":hover")
 </script>
 
 <form>
@@ -26,7 +32,10 @@
         type="radio"
         id="rating-5"
         name="rating"
-        on:click={() => createEvent(radioValue5)}
+        on:click={() => {
+          createEvent(radioValue5);
+          thisDispatch();
+        }}
       />
       <label for="rating-5">5</label>
       <input
@@ -35,7 +44,10 @@
         id="rating-4"
         name="rating"
         checked="checked"
-        on:click={() => createEvent(radioValue4)}
+        on:click={() => {
+          createEvent(radioValue4);
+          thisDispatch();
+        }}
       />
       <label for="rating-4">4</label>
       <input
@@ -43,7 +55,10 @@
         type="radio"
         id="rating-3"
         name="rating"
-        on:click={() => createEvent(radioValue3)}
+        on:click={() => {
+          createEvent(radioValue3);
+          thisDispatch();
+        }}
       />
       <label for="rating-3">3</label>
       <input
@@ -51,7 +66,10 @@
         type="radio"
         id="rating-2"
         name="rating"
-        on:click={() => createEvent(radioValue2)}
+        on:click={() => {
+          createEvent(radioValue2);
+          thisDispatch();
+        }}
       />
       <label for="rating-2">2</label>
       <input
@@ -59,7 +77,10 @@
         type="radio"
         id="rating-1"
         name="rating"
-        on:click={() => createEvent(radioValue1)}
+        on:click={() => {
+          createEvent(radioValue1);
+          thisDispatch();
+        }}
       />
       <label for="rating-1">1</label>
       <input
@@ -68,7 +89,10 @@
         id="rating-0"
         name="rating"
         class="star-cb-clear"
-        on:click={() => createEvent(radioValue0)}
+        on:click={() => {
+          createEvent(radioValue0);
+          thisDispatch();
+        }}
       />
       <label for="rating-0">0</label>
     </span>
@@ -81,14 +105,16 @@
 >
   Mouse over ME
 </div> -->
+
 <div class="displayText">
   Stars: <span class="displayRate">{currentRate}</span>
 </div>
 
+<!-- <button on:click={() => thisDispatch()}>Submit Rate</button> -->
 <style>
   form {
-    margin-top: -36px;
-    margin-bottom: 50px;
+    margin-top: 26px;
+    margin-bottom: 30px;
     position: relative;
     width: 300px;
   }
@@ -151,11 +177,11 @@
   }
   .displayText {
     position: absolute;
-    margin-top: -90px;
-    font-size: 16pxpx;
+    margin-top: -70px;
+    font-size: 16px;
     font-weight: bold;
     color: #0c0505;
-    right: 370px;
+    right: 380px;
   }
   .displayRate {
     font-size: 21px;

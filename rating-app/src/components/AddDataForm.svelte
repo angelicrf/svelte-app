@@ -3,6 +3,7 @@
   import { v4 as uuidv4 } from "uuid";
   import RatesRadioButtons from "../components/RatesRadioButtons.svelte";
   let thisValue = "";
+  let newRate = 0;
   export let firstArray = [];
 
   export let resetFirstArray = (changeThis) => {
@@ -12,20 +13,37 @@
   (async () => {
     let thisChange = resetFirstArray(firstArray);
   })();
+  const getRate = (e) => {
+    newRate = e.detail;
+    return newRate;
+  };
+
   const sumbmitAdd = (addValue) => {
     let newObj = {
       id: uuidv4(),
-      rating: Math.round(Math.random() * 100),
+      rating: newRate,
       text: addValue,
     };
-    (async () => {
-      resetFirstArray(firstArray);
-    })();
-    firstArray.push(newObj);
-    firstArray = [...firstArray];
-    (async () => {
-      resetFirstArray(firstArray);
-    })();
+    if (addValue != null && addValue.length > 10 && newRate != null) {
+      (async () => {
+        resetFirstArray(firstArray);
+      })();
+      firstArray.push(newObj);
+      firstArray = [...firstArray];
+      (async () => {
+        resetFirstArray(firstArray);
+      })();
+    } else {
+      alert(
+        "Try again ! No empty input field, No short message less than 10 chars, Must rate!"
+      );
+    }
+  };
+  const isPassed = (addValue) => {
+    if (addValue.length < 10 || addValue == "dirty" || newRate == 0) {
+      return true;
+    }
+    return false;
   };
 </script>
 
@@ -36,33 +54,45 @@
     type="text"
     name="addItem"
     id="addItem"
-    placeholder="Pl add your feedback..."
+    placeholder="Please write your comment..."
   />
-  <button class="addBtn" on:click={() => sumbmitAdd(thisValue)}>Add</button>
+  <RatesRadioButtons on:awesomeButtonEvent={getRate} />
+  <button
+    class="addBtn"
+    disabled={isPassed(thisValue)}
+    on:click={() => sumbmitAdd(thisValue)}>Add New Feedback</button
+  >
 </div>
-<RatesRadioButtons />
 
 <style>
   .addBtn {
     border-radius: 10px;
     text-align: center;
     padding: 10px 10px;
-    margin-left: 20px;
-    width: 80px;
-    background-color: #2e8d75;
+    margin-left: 5px;
+    width: 695px;
     color: #181111;
+  }
+  .addBtn:enabled {
+    background-color: #2e8d75;
+  }
+  .addBtn:disabled {
+    background-color: #60e246;
   }
   .addTxt {
     padding-left: 15px;
-    background-color: #ebd7be;
+    background-color: #cbe7d0;
     margin: 0 auto;
     color: #181111;
     max-width: 768px;
-    width: 620px;
-    height: 60px;
+    width: 695px;
+    height: 90px;
     border-radius: 10px;
   }
   .thisForm {
     margin-bottom: 60px;
+    background-color: #bedac9;
+    padding: 20px 15px;
+    border-radius: 15px;
   }
 </style>
