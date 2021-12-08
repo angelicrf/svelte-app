@@ -8,7 +8,8 @@
   let storeId = "";
   let editDivTxt = [];
   let editDivRate = [];
-  let getRates = 0;
+  let getRates,
+    editRate = 0;
 
   export let resetFirstArray = (changeThis) => {
     firstArray = changeThis;
@@ -52,12 +53,27 @@
     }
     return thisArray;
   };
+  const getEditedRate = (e) => {
+    editRate = e.detail;
+    return editRate;
+  };
+  const updateFirstArray = () => {
+    console.log("updatedCalled..");
+    (async () => {
+      let dataEditted = resetFirstArray(firstArray);
+    })();
+  };
+  const callUpdateArray = () => {
+    if (editRate > 0) {
+      updateFirstArray();
+    }
+  };
+  //callUpdateArray();
   setEditDivId(editDivTxt);
   setEditDivId(editDivRate);
 </script>
 
 <div>
-  {console.log(editDivTxt.length)}
   <AverageRate
     calcTotal={firstArray.length}
     calcAverage={Math.round(allAverage() / firstArray.length)}
@@ -79,7 +95,15 @@
       </div>
       {#if isChanged && storeId == firstArray[i].id}
         {(editDivTxt[i].style.display = "none")}
-        <EditFeedackForm feedackText={firstArray[i].text} />
+        <EditFeedackForm
+          feedackEditText={firstArray[i].text}
+          on:EditButtonEvent={getEditedRate}
+        />
+
+        {#if editRate > 0}
+          {((firstArray[i].rating = editRate),
+          (editDivRate[i].style.backgroundColor = "#a5ca3e"))}
+        {/if}
         {(editDivRate[i].style.backgroundColor = "#ff0000")}
       {/if}
     </Card>

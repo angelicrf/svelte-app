@@ -11,7 +11,6 @@
   let radioValue0 = 0;
   const createEvent = (thisRadio) => {
     console.log("mouseOver...");
-
     currentRate = thisRadio;
     return currentRate;
   };

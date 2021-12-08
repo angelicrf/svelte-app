@@ -1,104 +1,102 @@
 <script>
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
-  let currentRate = 0;
-  let changedValue = "";
-  let radioValue5 = 5;
-  let radioValue4 = 4;
-  let radioValue3 = 3;
-  let radioValue2 = 2;
-  let radioValue1 = 1;
-  let radioValue0 = 0;
-  export let feedackText = "";
-  const createEvent = (thisRadio) => {
-    console.log("mouseOver...");
-
-    currentRate = thisRadio;
-    return currentRate;
+  let currentEditRate = 0;
+  let changedEValue = "";
+  let radioEValue5 = 5;
+  let radioEValue4 = 4;
+  let radioEValue3 = 3;
+  let radioEValue2 = 2;
+  let radioEValue1 = 1;
+  let radioEValue0 = 0;
+  export let feedackEditText = "";
+  const createEditEvent = (thisRadio) => {
+    currentEditRate = thisRadio;
+    return currentEditRate;
   };
-  export let thisDispatch = () => {
-    dispatch("awesomeButtonEvent", currentRate);
+  export let thisEditDispatch = () => {
+    dispatch("EditButtonEvent", currentEditRate);
   };
 </script>
 
 <input
   type="text"
-  bind:value={changedValue}
+  bind:value={changedEValue}
   name="editItem"
   class="editItem"
-  placeholder={feedackText}
+  placeholder={feedackEditText}
 />
 <form>
   <fieldset>
     <span class="star-cb-group">
       <input
-        bind:value={radioValue5}
+        bind:value={radioEValue5}
         type="radio"
-        id="rating-5"
-        name="rating"
+        id="ratingE-5"
+        name="ratingE"
         on:click={() => {
-          createEvent(radioValue5);
-          thisDispatch();
+          createEditEvent(radioEValue5);
+          thisEditDispatch();
         }}
       />
-      <label for="rating-5">5</label>
+      <label for="ratingE-5">5</label>
       <input
-        bind:value={radioValue4}
+        bind:value={radioEValue4}
         type="radio"
-        id="rating-4"
-        name="rating"
+        id="ratingE-4"
+        name="ratingE"
         checked="checked"
         on:click={() => {
-          createEvent(radioValue4);
-          thisDispatch();
+          createEditEvent(radioEValue4);
+          thisEditDispatch();
         }}
       />
-      <label for="rating-4">4</label>
+      <label for="ratingE-4">4</label>
       <input
-        bind:value={radioValue3}
+        bind:value={radioEValue3}
         type="radio"
-        id="rating-3"
-        name="rating"
+        id="ratingE-3"
+        name="ratingE"
         on:click={() => {
-          createEvent(radioValue3);
-          thisDispatch();
+          createEditEvent(radioEValue3);
+          thisEditDispatch();
         }}
       />
-      <label for="rating-3">3</label>
+      <label for="ratingE-3">3</label>
       <input
-        bind:value={radioValue2}
+        bind:value={radioEValue2}
         type="radio"
-        id="rating-2"
-        name="rating"
+        id="ratingE-2"
+        name="ratingE"
         on:click={() => {
-          createEvent(radioValue2);
-          thisDispatch();
+          createEditEvent(radioEValue2);
+          thisEditDispatch();
         }}
       />
-      <label for="rating-2">2</label>
+      <label for="ratingE-2">2</label>
       <input
-        bind:value={radioValue1}
+        bind:value={radioEValue1}
         type="radio"
-        id="rating-1"
-        name="rating"
+        id="ratingE-1"
+        name="ratingE"
         on:click={() => {
-          createEvent(radioValue1);
-          thisDispatch();
+          createEditEvent(radioEValue1);
+          thisEditDispatch();
         }}
       />
-      <label for="rating-1">1</label>
+      <label for="ratingE-1">1</label>
       <input
-        bind:value={radioValue0}
+        bind:value={radioEValue0}
         type="radio"
-        id="rating-0"
-        name="rating"
+        id="ratingE-0"
+        name="ratingE"
         class="star-cb-clear"
         on:click={() => {
-          createEvent(radioValue0);
-          thisDispatch();
+          createEditEvent(radioEValue0);
+          thisEditDispatch();
         }}
       />
-      <label for="rating-0">0</label>
+      <label for="ratingE-0">0</label>
     </span>
   </fieldset>
 </form>
