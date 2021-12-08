@@ -2,7 +2,11 @@
   import Card from "./Card.svelte";
   import AverageRate from "../components/AverageRate.svelte";
   import { FeedbackStore } from "../store";
+  import EditFeedackForm from "../components/EditFeedackForm.svelte";
   export let firstArray = [];
+  let isChanged = false;
+  let storeId = "";
+  let editDivTxt = [];
   let getRates = 0;
 
   export let resetFirstArray = (changeThis) => {
@@ -21,6 +25,18 @@
       let dataChanged = resetFirstArray(firstArray);
     })();
   };
+  const slotEClick = (thisId) => {
+    firstArray.filter((hg) => {
+      if (hg.id == thisId) {
+        isChanged = true;
+        storeId = hg.id;
+        return storeId;
+      }
+    });
+    /*     (async () => {
+      let dataChanged = resetFirstArray(firstArray);
+    })(); */
+  };
   const allAverage = () => {
     getRates = 0;
     firstArray.forEach((rf) => {
@@ -29,19 +45,38 @@
     });
     return getRates;
   };
+  const setEditDivId = () => {
+    for (let i = 0; i < firstArray.length; i++) {
+      return (editDivTxt[i] = firstArray[i].id);
+    }
+    return editDivTxt;
+  };
+  setEditDivId();
 </script>
 
-<div class="firstPar">
+<div>
+  {console.log(editDivTxt.length)}
   <AverageRate
     calcTotal={firstArray.length}
-    calcAverage={allAverage() / firstArray.length}
+    calcAverage={Math.round(allAverage() / firstArray.length)}
   />
-  {#each firstArray as item}
+  {#each firstArray as _, i}
     <Card>
-      <div class="sloTxt">{item.rating}</div>
-      <button on:click={() => slotXClick(item.id)} class="slotX">X</button>
-      <div>{item.id}</div>
-      <div>{item.text}</div>
+      <div class="sloTxt">{firstArray[i].rating}</div>
+      <button on:click={() => slotXClick(firstArray[i].id)} class="slotX"
+        >X</button
+      >
+      <button on:click={() => slotEClick(firstArray[i].id)} class="slotE"
+        >Edit</button
+      >
+      <div>{firstArray[i].id}</div>
+      <div bind:this={editDivTxt[i]} id={editDivTxt[i]}>
+        {firstArray[i].text}
+      </div>
+      {#if isChanged && storeId == firstArray[i].id}
+        {(editDivTxt[i].style.display = "none")}
+        <EditFeedackForm feedackText={firstArray[i].text} />
+      {/if}
     </Card>
   {/each}
 </div>
@@ -69,7 +104,21 @@
     color: rgb(192, 178, 206);
     font-size: 21px;
     border-radius: 50%;
-    background-color: rgb(139, 48, 20);
+    background-color: #8b3014;
+    cursor: pointer;
+    border: none;
+  }
+  .slotE {
+    right: 70px;
+    margin-top: -30px;
+    width: 50px;
+    position: absolute;
+    font-weight: bold;
+    text-align: center;
+    color: rgb(192, 178, 206);
+    font-size: 21px;
+    border-radius: 50%;
+    background-color: #3b27ad;
     cursor: pointer;
     border: none;
   }
