@@ -35,15 +35,19 @@
         return storeId;
       }
     });
-    /*     (async () => {
+    /*(async () => {
       let dataChanged = resetFirstArray(firstArray);
     })(); */
   };
   const allAverage = () => {
     getRates = 0;
     firstArray.forEach((rf) => {
-      getRates += rf.rating;
-      return getRates;
+      if (rf) {
+        if (rf.rating) {
+          getRates += rf.rating;
+          return getRates;
+        }
+      }
     });
     return getRates;
   };
@@ -57,18 +61,20 @@
     editRate = e.detail;
     return editRate;
   };
-  const updateFirstArray = () => {
-    console.log("updatedCalled..");
-    (async () => {
-      let dataEditted = resetFirstArray(firstArray);
-    })();
+  const updateFirstArray = (thisRate, strId) => {
+    firstArray = firstArray.map((thisObj, index = thisArray.id) => {
+      if (strId == thisObj.id) {
+        thisObj = {
+          ...thisObj,
+          rating: thisRate,
+        };
+        doChange = true;
+        return thisObj;
+      }
+    });
+    return firstArray;
   };
-  const callUpdateArray = () => {
-    if (editRate > 0) {
-      updateFirstArray();
-    }
-  };
-  //callUpdateArray();
+
   setEditDivId(editDivTxt);
   setEditDivId(editDivRate);
 </script>
@@ -101,8 +107,12 @@
         />
 
         {#if editRate > 0}
-          {((firstArray[i].rating = editRate),
+          {(updateFirstArray(editRate, storeId),
           (editDivRate[i].style.backgroundColor = "#a5ca3e"))}
+          <!--       {#if doChange}
+            <p>{secondArray[0].rating}</p>
+            <p>{firstArray[0].rating}</p>
+          {/if} -->
         {/if}
         {(editDivRate[i].style.backgroundColor = "#ff0000")}
       {/if}
