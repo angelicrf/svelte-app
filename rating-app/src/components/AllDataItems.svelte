@@ -1,4 +1,6 @@
 <script>
+  import { Icon } from "svelte-materialify";
+  import { mdiStar, mdiPencilOutline, mdiDelete } from "@mdi/js";
   import Card from "./Card.svelte";
   import AverageRate from "../components/AverageRate.svelte";
   import { FeedbackStore } from "../store";
@@ -109,10 +111,10 @@
         {firstArray[i].rating}
       </div>
       <button on:click={() => slotXClick(firstArray[i].id)} class="slotX"
-        >X</button
+        ><Icon path={mdiDelete} /></button
       >
-      <button on:click={() => slotEClick(firstArray[i].id)} class="slotE"
-        >Edit</button
+      <button on:click={() => slotEClick(firstArray[i].id)} class="slotE">
+        <Icon path={mdiPencilOutline} /></button
       >
       <div>{firstArray[i].id}</div>
       <div bind:this={editDivTxt[i]} id={editDivTxt[i]}>

@@ -1,5 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { Button, Icon } from "svelte-materialify";
+  import { mdiMessagePlus } from "@mdi/js";
   const dispatch = createEventDispatcher();
   let currentEditRate = 0;
   let changedEValue = "";
@@ -18,7 +20,6 @@
     dispatch("EditButtonEvent", currentEditRate);
   };
   export let inputEditDispatch = (thisEInput) => {
-    //console.log("thisEInput " + thisEInput);
     dispatch("InputEditEvent", thisEInput);
   };
 </script>
@@ -105,11 +106,19 @@
     </span>
   </fieldset>
 </form>
+<div class="btnSend">
+  <Button size="x-small" class="blue white-text"
+    ><Icon path={mdiMessagePlus} /></Button
+  >
+</div>
 
 <style>
   .editItem {
     width: 630px;
     height: 70px;
+    background-color: #ece9e9;
+    border-radius: 14px;
+    padding: 10px 10px;
   }
   form {
     margin-top: 6px;
@@ -173,5 +182,10 @@
     color: #af3811;
     text-shadow: 0 0 2px #3a3737;
     font-size: 21px;
+  }
+  .btnSend {
+    position: absolute;
+    right: 50px;
+    margin-top: -47px;
   }
 </style>

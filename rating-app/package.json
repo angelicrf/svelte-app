@@ -18,7 +18,9 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "@mdi/js": "^6.5.95",
     "sirv-cli": "^1.0.0",
+    "svelte-materialify": "^0.3.11",
     "uuid": "^8.3.2"
   }
 }

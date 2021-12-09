@@ -1,6 +1,8 @@
 <script>
   import { FeedbackStore } from "../store";
   import { v4 as uuidv4 } from "uuid";
+  import { Icon } from "svelte-materialify";
+  import { mdiMessagePlus } from "@mdi/js";
   import RatesRadioButtons from "../components/RatesRadioButtons.svelte";
   let thisValue = "";
   let newRate = 0;
@@ -60,7 +62,8 @@
   <button
     class="addBtn"
     disabled={isPassed(thisValue)}
-    on:click={() => sumbmitAdd(thisValue)}>Add New Feedback</button
+    on:click={() => sumbmitAdd(thisValue)}
+    ><Icon path={mdiMessagePlus} style="padding-right:20px" />Add New Feedback</button
   >
 </div>
 
