@@ -9,13 +9,17 @@
   let radioEValue2 = 2;
   let radioEValue1 = 1;
   let radioEValue0 = 0;
-  export let feedackEditText = "";
+  export let feedbackEditText = "";
   const createEditEvent = (thisRadio) => {
     currentEditRate = thisRadio;
     return currentEditRate;
   };
   export let thisEditDispatch = () => {
     dispatch("EditButtonEvent", currentEditRate);
+  };
+  export let inputEditDispatch = (thisEInput) => {
+    //console.log("thisEInput " + thisEInput);
+    dispatch("InputEditEvent", thisEInput);
   };
 </script>
 
@@ -24,7 +28,8 @@
   bind:value={changedEValue}
   name="editItem"
   class="editItem"
-  placeholder={feedackEditText}
+  placeholder={feedbackEditText}
+  on:mouseenter={(e) => inputEditDispatch(changedEValue)}
 />
 <form>
   <fieldset>

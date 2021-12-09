@@ -6,10 +6,11 @@
   export let firstArray = [];
   let isChanged = false;
   let storeId = "";
+  let editedTxt = "";
   let editDivTxt = [];
   let editDivRate = [];
-  let getRates,
-    editRate = 0;
+  let getRates = 0;
+  let editRate = 0;
 
   export let resetFirstArray = (changeThis) => {
     firstArray = changeThis;
@@ -61,20 +62,38 @@
     editRate = e.detail;
     return editRate;
   };
+  const getEditedTxt = (e) => {
+    editedTxt = e.detail;
+    return editedTxt;
+  };
   const updateFirstArray = (thisRate, strId) => {
-    firstArray = firstArray.map((thisObj, index = thisArray.id) => {
+    firstArray = firstArray.map((thisObj, index) => {
       if (strId == thisObj.id) {
         thisObj = {
           ...thisObj,
           rating: thisRate,
         };
-        doChange = true;
-        return thisObj;
+      } else {
+        thisObj = { ...thisObj };
       }
+      return thisObj;
     });
     return firstArray;
   };
-
+  const updateTextFirstArray = (thisText, strId) => {
+    firstArray = firstArray.map((thisObj, index) => {
+      if (strId == thisObj.id) {
+        thisObj = {
+          ...thisObj,
+          text: thisText,
+        };
+      } else {
+        thisObj = { ...thisObj };
+      }
+      return thisObj;
+    });
+    return firstArray;
+  };
   setEditDivId(editDivTxt);
   setEditDivId(editDivRate);
 </script>
@@ -102,17 +121,18 @@
       {#if isChanged && storeId == firstArray[i].id}
         {(editDivTxt[i].style.display = "none")}
         <EditFeedackForm
-          feedackEditText={firstArray[i].text}
+          feedbackEditText={firstArray[i].text}
           on:EditButtonEvent={getEditedRate}
+          on:InputEditEvent={getEditedTxt}
         />
-
         {#if editRate > 0}
           {(updateFirstArray(editRate, storeId),
           (editDivRate[i].style.backgroundColor = "#a5ca3e"))}
-          <!--       {#if doChange}
-            <p>{secondArray[0].rating}</p>
-            <p>{firstArray[0].rating}</p>
-          {/if} -->
+        {/if}
+        {#if editedTxt.length > 0}
+          {(updateTextFirstArray(editedTxt, storeId),
+          (editDivTxt[i].style.display = "block"),
+          (editDivTxt[i].style.color = "red"))}
         {/if}
         {(editDivRate[i].style.backgroundColor = "#ff0000")}
       {/if}
