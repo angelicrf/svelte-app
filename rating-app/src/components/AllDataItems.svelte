@@ -13,7 +13,8 @@
   let editDivRate = [];
   let getRates = 0;
   let editRate = 0;
-
+  let editstyle = "display: block";
+  let thisEdTxt = "none";
   export let resetFirstArray = (changeThis) => {
     firstArray = changeThis;
   };
@@ -96,6 +97,10 @@
     });
     return firstArray;
   };
+  const setEditStyle = () => {
+    editstyle = "display: none";
+    return editstyle;
+  };
   setEditDivId(editDivTxt);
   setEditDivId(editDivRate);
 </script>
@@ -121,12 +126,15 @@
         {firstArray[i].text}
       </div>
       {#if isChanged && storeId == firstArray[i].id}
-        {(editDivTxt[i].style.display = "none")}
-        <EditFeedackForm
-          feedbackEditText={firstArray[i].text}
-          on:EditButtonEvent={getEditedRate}
-          on:InputEditEvent={getEditedTxt}
-        />
+        {(editDivTxt[i].style.display = thisEdTxt)}
+        <div>
+          <EditFeedackForm
+            style={editstyle}
+            feedbackEditText={firstArray[i].text}
+            on:EditButtonEvent={getEditedRate}
+            on:InputEditEvent={getEditedTxt}
+          />
+        </div>
         {#if editRate > 0}
           {(updateFirstArray(editRate, storeId),
           (editDivRate[i].style.backgroundColor = "#a5ca3e"))}
@@ -135,6 +143,9 @@
           {(updateTextFirstArray(editedTxt, storeId),
           (editDivTxt[i].style.display = "block"),
           (editDivTxt[i].style.color = "red"))}
+        {/if}
+        {#if editedTxt.length > 0 && editRate > 0}
+          {setEditStyle()}
         {/if}
         {(editDivRate[i].style.backgroundColor = "#ff0000")}
       {/if}

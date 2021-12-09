@@ -11,6 +11,9 @@
   let radioEValue2 = 2;
   let radioEValue1 = 1;
   let radioEValue0 = 0;
+  export let style = {
+    display: "none",
+  };
   export let feedbackEditText = "";
   const createEditEvent = (thisRadio) => {
     currentEditRate = thisRadio;
@@ -26,13 +29,14 @@
 
 <input
   type="text"
+  {style}
   bind:value={changedEValue}
   name="editItem"
   class="editItem"
   placeholder={feedbackEditText}
   on:mouseenter={(e) => inputEditDispatch(changedEValue)}
 />
-<form>
+<form {style}>
   <fieldset>
     <span class="star-cb-group">
       <input
@@ -106,7 +110,7 @@
     </span>
   </fieldset>
 </form>
-<div class="btnSend">
+<div class="btnSend" {style}>
   <Button size="x-small" class="blue white-text"
     ><Icon path={mdiMessagePlus} /></Button
   >
