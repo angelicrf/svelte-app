@@ -1,24 +1,31 @@
 <script>
-  import { Icon } from "svelte-materialify";
-  import { mdiStar, mdiPencilOutline, mdiDelete } from "@mdi/js";
+  import { Button, Icon } from "svelte-materialify";
+  import {
+    mdiStar,
+    mdiPencilOutline,
+    mdiDelete,
+    mdiMessagePlus,
+  } from "@mdi/js";
   import Card from "./Card.svelte";
   import AverageRate from "../components/AverageRate.svelte";
   import { FeedbackStore } from "../store";
   import EditFeedackForm from "../components/EditFeedackForm.svelte";
   export let firstArray = [];
   let isChanged = false;
+  let isIssued = false;
   let storeId = "";
   let editedTxt = "";
   let editDivTxt = [];
   let editDivRate = [];
   let getRates = 0;
   let editRate = 0;
-  let editstyle = "display: block";
-  let thisEdTxt = "none";
+  let editstyle;
   let sloTxt;
   let changeClass;
   let dspTxt;
   let changeDspTxt;
+  let displayStyle;
+  let mdfDisplayStyle;
 
   export let resetFirstArray = (changeThis) => {
     firstArray = changeThis;
@@ -44,9 +51,6 @@
         return storeId;
       }
     });
-    /*(async () => {
-      let dataChanged = resetFirstArray(firstArray);
-    })(); */
   };
   const allAverage = () => {
     getRates = 0;
@@ -106,9 +110,11 @@
     editstyle = "display: none";
     return editstyle;
   };
+  const setInitEditStyle = () => (editstyle = "display: bock");
   const mdfSloTxt = () => (sloTxt = !sloTxt);
   const mdfDspTxt = () => (dspTxt = !dspTxt);
 
+  setInitEditStyle();
   mdfDspTxt();
   mdfSloTxt();
 </script>
@@ -146,15 +152,19 @@
         id={editDivTxt[i]}
         class:dspTxt
         class:changeDspTxt
+        class:displayStyle
+        class:mdfDisplayStyle
       >
         {firstArray[i].text}
       </div>
       {#if isChanged && storeId == firstArray[i].id}
         {#if editDivRate[i].classList.contains("sloTxt")}
-          {(editDivRate[i].classList.remove("sloTxt"),
-          editDivRate[i].classList.add("changeClass"))}
+          {setTimeout(() => {
+            editDivRate[i].classList.remove("sloTxt");
+            editDivRate[i].classList.add("changeClass");
+            editDivTxt[i].classList.add("displayStyle");
+          }, 100)}
         {/if}
-        {(editDivTxt[i].style.display = thisEdTxt)}
         <div>
           <EditFeedackForm
             style={editstyle}
@@ -163,22 +173,34 @@
             on:InputEditEvent={getEditedTxt}
           />
         </div>
-        {#if editRate > 0}
-          {(updateFirstArray(editRate, storeId), (sloTxt = !sloTxt))}
-        {/if}
-        {#if editedTxt.length > 0}
-          {console.log(editDivTxt[i].className)}
-          {#if editDivTxt[i].classList.contains("dspTxt")}
-            {(console.log(editDivTxt[i].classList.contains("dspTxt")),
-            (editDivTxt[i].classList.remove("dspTxt"),
-            editDivTxt[i].classList.add("changeDspTxt")))}
-          {/if}
-          {(updateTextFirstArray(editedTxt, storeId),
-          (editDivTxt[i].style.display = "block"))}
-        {/if}
-        {#if editedTxt.length > 0 && editRate > 0}
-          {setEditStyle()}
-        {/if}
+        <div class="btnSend">
+          <Button
+            size="x-small"
+            class="blue white-text"
+            on:click={() => {
+              if (editedTxt.length >= 10 && editRate > 0) {
+                if (editDivRate[i].classList.contains("changeClass")) {
+                  editDivRate[i].classList.remove("changeClass");
+                  editDivRate[i].classList.add("sloTxt");
+                }
+                updateFirstArray(editRate, storeId);
+                updateTextFirstArray(editedTxt, storeId);
+
+                if (editDivTxt[i].classList.contains("dspTxt")) {
+                  editDivTxt[i].classList.remove("dspTxt");
+                  editDivTxt[i].classList.add("changeDspTxt");
+                }
+                if (editDivTxt[i].classList.contains("displayStyle")) {
+                  editDivTxt[i].classList.remove("displayStyle");
+                  editDivTxt[i].classList.add("mdfDisplayStyle");
+                }
+                setEditStyle();
+              } else {
+                alert("Try again! No empty field & rate!");
+              }
+            }}><Icon path={mdiMessagePlus} /></Button
+          >
+        </div>
       {/if}
     </Card>
   {/each}
@@ -215,6 +237,12 @@
   .changeDspTxt {
     color: #ff0000;
   }
+  .displayStyle {
+    display: none;
+  }
+  .mdfDisplayStyle {
+    display: block;
+  }
   .slotX {
     right: 20px;
     margin-top: -30px;
@@ -242,5 +270,10 @@
     background-color: #3b27ad;
     cursor: pointer;
     border: none;
+  }
+  .btnSend {
+    position: absolute;
+    right: 50px;
+    margin-top: -47px;
   }
 </style>
