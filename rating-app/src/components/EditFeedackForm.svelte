@@ -11,9 +11,7 @@
   let radioEValue2 = 2;
   let radioEValue1 = 1;
   let radioEValue0 = 0;
-  export let style = {
-    display: "none",
-  };
+  export let style = "display: block";
   export let feedbackEditText = "";
   const createEditEvent = (thisRadio) => {
     currentEditRate = thisRadio;

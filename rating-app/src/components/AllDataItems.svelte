@@ -15,6 +15,11 @@
   let editRate = 0;
   let editstyle = "display: block";
   let thisEdTxt = "none";
+  let sloTxt;
+  let changeClass;
+  let dspTxt;
+  let changeDspTxt;
+
   export let resetFirstArray = (changeThis) => {
     firstArray = changeThis;
   };
@@ -101,8 +106,11 @@
     editstyle = "display: none";
     return editstyle;
   };
-  setEditDivId(editDivTxt);
-  setEditDivId(editDivRate);
+  const mdfSloTxt = () => (sloTxt = !sloTxt);
+  const mdfDspTxt = () => (dspTxt = !dspTxt);
+
+  mdfDspTxt();
+  mdfSloTxt();
 </script>
 
 <div>
@@ -110,22 +118,42 @@
     calcTotal={firstArray.length}
     calcAverage={Math.round(allAverage() / firstArray.length)}
   />
+
   {#each firstArray as _, i}
     <Card>
-      <div bind:this={editDivRate[i]} id={editDivRate[i]} class="sloTxt">
+      <div
+        bind:this={editDivRate[i]}
+        id={editDivRate[i]}
+        class:sloTxt
+        class:changeClass
+      >
         {firstArray[i].rating}
       </div>
       <button on:click={() => slotXClick(firstArray[i].id)} class="slotX"
         ><Icon path={mdiDelete} /></button
       >
-      <button on:click={() => slotEClick(firstArray[i].id)} class="slotE">
+      <button
+        on:click={() => {
+          slotEClick(firstArray[i].id);
+        }}
+        class="slotE"
+      >
         <Icon path={mdiPencilOutline} /></button
       >
       <div>{firstArray[i].id}</div>
-      <div bind:this={editDivTxt[i]} id={editDivTxt[i]}>
+      <div
+        bind:this={editDivTxt[i]}
+        id={editDivTxt[i]}
+        class:dspTxt
+        class:changeDspTxt
+      >
         {firstArray[i].text}
       </div>
       {#if isChanged && storeId == firstArray[i].id}
+        {#if editDivRate[i].classList.contains("sloTxt")}
+          {(editDivRate[i].classList.remove("sloTxt"),
+          editDivRate[i].classList.add("changeClass"))}
+        {/if}
         {(editDivTxt[i].style.display = thisEdTxt)}
         <div>
           <EditFeedackForm
@@ -136,18 +164,21 @@
           />
         </div>
         {#if editRate > 0}
-          {(updateFirstArray(editRate, storeId),
-          (editDivRate[i].style.backgroundColor = "#a5ca3e"))}
+          {(updateFirstArray(editRate, storeId), (sloTxt = !sloTxt))}
         {/if}
         {#if editedTxt.length > 0}
+          {console.log(editDivTxt[i].className)}
+          {#if editDivTxt[i].classList.contains("dspTxt")}
+            {(console.log(editDivTxt[i].classList.contains("dspTxt")),
+            (editDivTxt[i].classList.remove("dspTxt"),
+            editDivTxt[i].classList.add("changeDspTxt")))}
+          {/if}
           {(updateTextFirstArray(editedTxt, storeId),
-          (editDivTxt[i].style.display = "block"),
-          (editDivTxt[i].style.color = "red"))}
+          (editDivTxt[i].style.display = "block"))}
         {/if}
         {#if editedTxt.length > 0 && editRate > 0}
           {setEditStyle()}
         {/if}
-        {(editDivRate[i].style.backgroundColor = "#ff0000")}
       {/if}
     </Card>
   {/each}
@@ -165,6 +196,24 @@
     font-size: 21px;
     border-radius: 50%;
     background-color: #a5ca3e;
+  }
+  .changeClass {
+    margin-left: -10px;
+    margin-top: -36px;
+    width: 40px;
+    position: absolute;
+    font-weight: bold;
+    text-align: center;
+    color: #6f4399;
+    font-size: 21px;
+    border-radius: 50%;
+    background-color: #ff0000;
+  }
+  .dspTxt {
+    color: #000000;
+  }
+  .changeDspTxt {
+    color: #ff0000;
   }
   .slotX {
     right: 20px;
