@@ -109,7 +109,7 @@
 
 <style>
   .editItem {
-    width: 630px;
+    width: 100%;
     height: 70px;
     background-color: #ece9e9;
     border-radius: 14px;

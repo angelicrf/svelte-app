@@ -160,9 +160,9 @@
       {#if isChanged && storeId == firstArray[i].id}
         {#if editDivRate[i].classList.contains("sloTxt")}
           {setTimeout(() => {
-            editDivRate[i].classList.remove("sloTxt");
-            editDivRate[i].classList.add("changeClass");
-            editDivTxt[i].classList.add("displayStyle");
+            editDivRate[i].classList.remove("sloTxt"),
+              editDivRate[i].classList.add("changeClass"),
+              editDivTxt[i].classList.add("displayStyle");
           }, 100)}
         {/if}
         <div>

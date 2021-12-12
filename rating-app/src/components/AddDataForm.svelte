@@ -73,7 +73,7 @@
     text-align: center;
     padding: 10px 10px;
     margin-left: 5px;
-    width: 695px;
+    width: 100%;
     color: #181111;
   }
   .addBtn:enabled {
@@ -88,7 +88,7 @@
     margin: 0 auto;
     color: #181111;
     max-width: 768px;
-    width: 695px;
+    width: 100%;
     height: 90px;
     border-radius: 10px;
   }

@@ -180,7 +180,17 @@
     font-size: 16px;
     font-weight: bold;
     color: #0c0505;
-    right: 380px;
+    right: 27%;
+  }
+  @media only screen and (max-width: 600px) {
+    .displayText {
+      position: absolute;
+      margin-top: -70px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #0c0505;
+      right: 10%;
+    }
   }
   .displayRate {
     font-size: 21px;
