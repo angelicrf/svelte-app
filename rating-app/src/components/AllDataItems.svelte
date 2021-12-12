@@ -1,11 +1,6 @@
 <script>
   import { Button, Icon } from "svelte-materialify";
-  import {
-    mdiStar,
-    mdiPencilOutline,
-    mdiDelete,
-    mdiMessagePlus,
-  } from "@mdi/js";
+  import { mdiPencilOutline, mdiDelete, mdiMessagePlus } from "@mdi/js";
   import Card from "./Card.svelte";
   import AverageRate from "../components/AverageRate.svelte";
   import { FeedbackStore } from "../store";
@@ -26,6 +21,10 @@
   let changeDspTxt;
   let displayStyle;
   let mdfDisplayStyle;
+  let isChangeSubmited = false;
+  let hideBtn = false;
+  let error = false;
+  let errorMsg = "";
 
   export let resetFirstArray = (changeThis) => {
     firstArray = changeThis;
@@ -135,10 +134,13 @@
       >
         {firstArray[i].rating}
       </div>
-      <button on:click={() => slotXClick(firstArray[i].id)} class="slotX"
-        ><Icon path={mdiDelete} /></button
+      <button
+        disabled={isChangeSubmited}
+        on:click={() => slotXClick(firstArray[i].id)}
+        class="slotX"><Icon path={mdiDelete} /></button
       >
       <button
+        disabled={isChangeSubmited}
         on:click={() => {
           slotEClick(firstArray[i].id);
         }}
@@ -174,11 +176,13 @@
           />
         </div>
         <div class="btnSend">
-          <Button
+          <button
             size="x-small"
+            bind:this={hideBtn}
             class="blue white-text"
             on:click={() => {
               if (editedTxt.length >= 10 && editRate > 0) {
+                hideBtn.style.display = "none";
                 if (editDivRate[i].classList.contains("changeClass")) {
                   editDivRate[i].classList.remove("changeClass");
                   editDivRate[i].classList.add("sloTxt");
@@ -195,12 +199,20 @@
                   editDivTxt[i].classList.add("mdfDisplayStyle");
                 }
                 setEditStyle();
+                isChangeSubmited = true;
+                if (errorMsg.classList.contains("error")) {
+                  errorMsg.classList.remove("error");
+                  errorMsg.innerHTML = "";
+                }
               } else {
-                alert("Try again! No empty field & rate!");
+                errorMsg.innerHTML = "Try again! No empty field & rate!";
+                errorMsg.classList.add("error");
               }
-            }}><Icon path={mdiMessagePlus} /></Button
-          >
+            }}
+            ><Icon path={mdiMessagePlus} />
+          </button>
         </div>
+        <div class:error bind:this={errorMsg} />
       {/if}
     </Card>
   {/each}
@@ -231,6 +243,15 @@
     border-radius: 50%;
     background-color: #ff0000;
   }
+  .error {
+    color: #0000ff;
+    width: 50%;
+    font-weight: bold;
+    background-color: #c03440;
+    border-radius: 10px;
+    padding: 10px 10px;
+    font-size: 1em;
+  }
   .dspTxt {
     color: #000000;
   }
@@ -256,6 +277,10 @@
     background-color: #8b3014;
     cursor: pointer;
     border: none;
+  }
+  .slotX:disabled,
+  .slotE:disabled {
+    cursor: default;
   }
   .slotE {
     right: 70px;
